@@ -4,9 +4,7 @@ function handles = demoWindow
 
 
 %  Create and then hide the UI as it is being constructed.
-handles.f = figure('Position',[900, 40, 1000, 900], ...
-                   'MenuBar','none','toolbar', 'none',...
-                   'Clipping', 'off', 'DockControls', 'off');
+handles.f = figure('Position',[400, 350, 1000, 450],'MenuBar','none','toolbar', 'figure');
 
 % Construct the components.
 
@@ -18,10 +16,9 @@ title(handles.ax2, 'Pulse accumulation long-time frame')
 xlabel(handles.ax2,'Time, [ sec ]')
 ylabel(handles.ax2,'Range, [ m ] ')
 
+f2 = figure('Position',[1075, 50, 800, 500], 'toolbar', 'figure','MenuBar','none');
 
-%f2 = figure('Position',[250, 20, 800, 500], 'toolbar', 'none','MenuBar','none');
-
-handles.ax3 = axes('Units','pixels','Position',[100, 480, 880, 400]);
+handles.ax3 = axes('Units','pixels','Position',[70,50, 750, 420]);
 
 colormap(handles.ax3, 'jet' )
 view(handles.ax3,0,-90);

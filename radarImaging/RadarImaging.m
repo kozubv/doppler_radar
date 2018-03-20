@@ -60,7 +60,7 @@ classdef RadarImaging < handle
             % Spectrogramm
             % s = spectrogram(S,128,120,128, 1/obj.pulsePeriod_ );
             wlen = obj.windLen_;
-            hop = ceil(wlen*0.25);
+            hop = ceil(wlen*0.08);
             nfft = wlen;
             % perform time-frequency analysis and resynthesis of the original signal
             [stft, ~, ~] = stftFullSc(S, wlen, hop, nfft, 1/obj.pulsePeriod_);

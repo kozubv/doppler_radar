@@ -8,29 +8,29 @@ close all
 
 % параметры цели  
 % 'Target' OR 'TargetCopter' OR 'TargetHuman'
-tgOpt.targetType    = 'Target'; 
+tgOpt.targetType    = 'TargetHuman'; 
 % --- TargetCopter оptions
-tgOpt.numBlade    = 3;                  % кол-во пропеллеров у мультикоптера
-tgOpt.rotFreq     = 0;                  % частота вращения пропеллера
+tgOpt.numBlade    = 2;                  % кол-во пропеллеров у мультикоптера
+tgOpt.rotFreq     = 100;                  % частота вращения пропеллера
 % --- moving options
-tgOpt.absVelocity   = 2;                % модуль скорости 
+tgOpt.absVelocity   = 10;                % модуль скорости 
 tgOpt.traceType     = 'TraceCircle'; % 'TraceReclinear' OR 'TraceCircle' 
 % --- options TraceRecliniar 
-tgOpt.traceAz       = 60;                % направление скорости от оси X
+tgOpt.traceAz       = 0;                % направление скорости от оси X
 tgOpt.traceRotation = [0 0]; % [Azimut Elevation] % угловая скорость вращения относительно центра
 % --- options TraceCircle 
-tgOpt.traceRadius   = 5;                % радиус окружности для круговой траектории
+tgOpt.traceRadius   = 2;                % радиус окружности для круговой траектории
 tgOpt.position      = [500 0 0];% начальные координаты цели. 
 
 
 % параметры РЛС
 rdOpt.carrierFreq       = 9e9;          % рабочая частота радара
-rdOpt.pulseRate         = 1000;         % частота следования импульсов
+rdOpt.pulseRate         = 8e3;         % частота следования импульсов
 rdOpt.pulseFormId       = 1;            % только прямоуголная форма импульсов.
 rdOpt.rangeResolution   = 30;           % разрешение по дальности
 rdOpt.rangeLim          = sqrt(sum(tgOpt.position.^2)) + [ -1 1 ]*50;
-rdOpt.frameBufferImageTimeLim   = 0.5;
-rdOpt.lenSpertrAccum    = 2048 / 8;     % колво импусов Short-time Fourier transform
+rdOpt.frameBufferImageTimeLim   = 2;
+rdOpt.lenSpertrAccum    = 1024;     % колво импусов Short-time Fourier transform
 rdOpt.windowsFftLen     = 128;          % размер окна в STFT
 
 
@@ -49,12 +49,12 @@ meanFreq = 2*tgOpt.absVelocity / (3e8 / rdOpt.carrierFreq )
 
 % -------------------------------------------------------------------------
 % --- Execution
-timeSimulation = 50;                 % время моделирования 
+timeSimulation = 20 / tgOpt.absVelocity ;                 % время моделирования 
 
 
 % временной шаг моделирования
-timeStep = 0.33;
-tPause = 0.05;
+timeStep = 1 / tgOpt.absVelocity / 50;
+tPause = 0.0001;
 
 if max(tgOpt.traceRotation) > 0     % если цель вращяется
     dt = 2 / rdOpt.pulseRate;
@@ -85,9 +85,6 @@ for n = 1 : (length(T)-1)
     pause(tPause)
     drawnow    
 end
-
-
-
 
 
 
